@@ -1,0 +1,218 @@
+#include<SoftwareSerial.h>
+#include <Adafruit_NeoPixel.h>
+#define RX 3
+#define TX 11
+SoftwareSerial BlueT(RX,TX);
+//A gauche
+//B droite
+int X=16;
+
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(X, 4, NEO_GRB + NEO_KHZ800);
+char Data;
+int PWM=0;
+int vit=0;
+int ENA=9; //Connecté à Arduino pin 9(sortie PWM)
+int IN1=8; //Connecté à Arduino pin 4
+int IN2=10; //Connecté à Arduino pin 5
+//-- MOTEUR B --
+int ENB=5; //Connecté à Arduino pin 10(Sortie PWM)
+int IN3=6; //Connecté à Arduino pin 6
+int IN4=7; //Connecté à Arduino pin 7
+void setup() {
+  Serial.begin(9600);
+  delay(500);
+  pinMode(ENA,OUTPUT); // Configurer
+  pinMode(ENB,OUTPUT); // les broches
+  pinMode(IN1,OUTPUT); // comme sortie
+  pinMode(IN2,OUTPUT);
+  pinMode(IN3,OUTPUT);
+  pinMode(IN4,OUTPUT);
+  BlueT.begin(9600);
+  strip.begin();
+  strip.show();
+  // Direction du Moteur A
+
+  // Direction du Moteur B
+  // NB: en sens inverse du moteur A
+
+  Serial.println("Bonjour...");
+  delay(500);
+
+// analogWrite(ENB,0);
+}
+void loop() {
+  if(BlueT.available()){
+    Data=BlueT.read();
+    if(Data=='A'){ //permet au robot d'avancer ou de reculer
+      PWM=BlueT.parseInt();
+      Serial.println(PWM1);
+      if(PWM<0){
+        vit=-PWM;
+        digitalWrite(IN1,LOW);
+        digitalWrite(IN2,HIGH);
+        digitalWrite(IN3,HIGH);
+        digitalWrite(IN4,LOW);
+      } else {
+        vit=PWM;
+        digitalWrite(IN1,HIGH);
+        digitalWrite(IN2,LOW);
+        digitalWrite(IN3,LOW);
+        digitalWrite(IN4,HIGH);
+
+      }
+      analogWrite(ENA,vit);
+      analogWrite(ENB,vit);
+    }
+    if(Data=='B'){  //permet au robot de tourner sur lui-même vers la droite
+      PWM=BlueT.parseInt();
+
+      digitalWrite(IN1,HIGH);
+      digitalWrite(IN2,LOW);
+      digitalWrite(IN3,HIGH);
+      digitalWrite(IN4,LOW);
+      analogWrite(ENB,PWM);
+      analogWrite(ENA,PWM);
+    }
+
+    if(Data=='C'){  //permet au robot de tourner sur lui-même vers la gauche
+      PWM=BlueT.parseInt();
+
+      digitalWrite(IN1,LOW);
+      digitalWrite(IN2,HIGH);
+      digitalWrite(IN3,LOW);
+      digitalWrite(IN4,HIGH);
+      analogWrite(ENB,PWM);
+      analogWrite(ENA,PWM);
+    }
+    if(Data=='F'){ // Red Button Pressed
+      Serial.println("OKF");
+
+     for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+         strip.setPixelColor(i,255,0,127);    
+      }
+     strip.show(); // on affiche 
+      delay(1000);
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+         strip.setPixelColor(i,249, 66, 158);    
+      }
+     strip.show(); // on affiche 
+      delay(1000);
+
+     for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+          strip.setPixelColor(i,217, 1, 21);    
+      }
+     strip.show(); // on affiche 
+      delay(1000);
+
+
+     for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+         strip.setPixelColor(i,255,0,127);    
+     }
+
+    
+     strip.show(); // on affiche 
+      delay(1000);
+
+
+
+
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+         strip.setPixelColor(i,222,49,99);    
+      }
+      strip.show(); // on affiche 
+      delay(1000);
+
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+         strip.setPixelColor(i,219,0,115);    
+     }
+     strip.show(); // on affiche 
+      delay(1000);
+    }
+
+
+    /*else {
+         for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+        strip.setPixelColor(i, random(0, 223), random(0, 223), random(0, 223));       
+    }
+    strip.show(); // on affiche 
+    delay(1000);
+    }*/
+    
+    if(Data=='G'){ // Yellow Button Pressed
+       Serial.println("OKG");
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+        strip.setPixelColor(i,0,142,142);
+        }
+     strip.show(); // on affiche 
+     delay(1000);
+
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+       strip.setPixelColor(i,121, 248, 248);
+      }
+     strip.show(); // on affiche 
+     delay(1000);
+
+      for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+      strip.setPixelColor(i,131, 166, 151);
+       }
+      strip.show(); // on affiche 
+      delay(1000);
+
+    for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+      strip.setPixelColor(i,128, 208, 208);
+      }
+     strip.show(); // on affiche 
+     delay(1000);
+
+    for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+       strip.setPixelColor(i,22, 184, 78);
+       }
+     strip.show(); // on affiche 
+    delay(1000);
+
+    for(int i = 0; i < X; i++ ) { // On fait une boucle pour définir la couleur de chaque led
+        // setPixelColor(n° de led, Rouge, Vert, Bleu)
+       // strip.setPixelColor(i,253,108,158);    
+       strip.setPixelColor(i,(46, 0, 108));
+      }
+     strip.show(); // on affiche 
+     delay(1000);
+
+    
+    }
+  }
+  /*
+  Serial.print("   ");
+  Serial.println(PWM2);*/
+
+
+}
