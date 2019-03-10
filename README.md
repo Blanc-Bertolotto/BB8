@@ -1,8 +1,8 @@
 # BB8
 
- Ce projet est réalisé dans le cadre de la formation de prépa intégré de Polytech'Nice Sophia.
+ Ce projet a été réalisé dans le cadre de la formation de prépa intégré de Polytech'Nice Sophia.
 
-Le BB8 est un robot qui se déplace en roulant. L'utilisateur contrôle les déplacements du BB8 depuis son smartphone. Le BB8 s’éclaire selon nos envies.  
+Le BB8 est un robot qui se déplace en roulant. L'utilisateur contrôle les déplacements du BB8 depuis son smartphone et commande son éclairage et sa couleur selon sa préférence.  
 
 
 
