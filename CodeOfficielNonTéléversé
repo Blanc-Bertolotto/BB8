@@ -1,0 +1,176 @@
+#include<SoftwareSerial.h>
+#include <Adafruit_NeoPixel.h>
+#define RX 3
+#define TX 11
+SoftwareSerial BlueT(RX,TX);
+//A gauche
+//B droite
+int X=16;
+int RGBF[6][3] = {  //contient les différents taux RGB du mode "Fille"
+  {255,0,127},
+  {249,66,158},
+  {217,1,21},
+  {255,0,127},
+  {222,49,99},
+  {219,0,115}
+};
+int RGBG[6][3]={  //contient les différents taux RGB du mode "Garçon"
+  {0,142,142},
+  {121,248,248},
+  {131,166,151},
+  {128,208,208},
+  {22,184,78},
+  {46,0,108},
+};
+
+int i=0; //permet d'alterner les taux RGB des 2 modes
+char c; //permet de stocker la couleur demandé par l'utilisateur
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(X, 4, NEO_GRB + NEO_KHZ800);
+char Data;
+int PWM=0;
+int PWM1=0;
+int PWM2=0;
+int vit=0;
+int ENA=9; //Connecté à Arduino pin 9(sortie PWM)
+int IN1=8; //Connecté à Arduino pin 4
+int IN2=10; //Connecté à Arduino pin 5
+//-- MOTEUR B --
+int ENB=5; //Connecté à Arduino pin 10(Sortie PWM)
+int IN3=6; //Connecté à Arduino pin 6
+int IN4=7; //Connecté à Arduino pin 7
+void setup() {
+  Serial.begin(9600);
+  delay(500);
+  pinMode(ENA,OUTPUT); // Configurer
+  pinMode(ENB,OUTPUT); // les broches
+  pinMode(IN1,OUTPUT); // comme sortie
+  pinMode(IN2,OUTPUT);
+  pinMode(IN3,OUTPUT);
+  pinMode(IN4,OUTPUT);
+  BlueT.begin(9600);
+  strip.begin();
+  strip.show();
+  // Direction du Moteur A
+
+  // Direction du Moteur B
+  // NB: en sens inverse du moteur A
+
+  Serial.println("Bonjour...");
+  delay(500);
+  c='R';
+}
+void loop() {
+  if(BlueT.available()){
+    Data=BlueT.read();
+    if(Data=='A'){ //permet au robot d'avancer ou de reculer
+      PWM=BlueT.parseInt();
+      Serial.println(PWM1);
+      if(PWM<0){
+        vit=-PWM;
+        digitalWrite(IN1,LOW);
+        digitalWrite(IN2,HIGH);
+        digitalWrite(IN3,HIGH);
+        digitalWrite(IN4,LOW);
+      } else {
+        vit=PWM;
+        digitalWrite(IN1,HIGH);
+        digitalWrite(IN2,LOW);
+        digitalWrite(IN3,LOW);
+        digitalWrite(IN4,HIGH);
+
+      }
+      analogWrite(ENA,vit);
+      analogWrite(ENB,vit);
+    }
+    if(Data=='B'){  //permet au robot de tourner sur lui-même vers la droite
+      PWM1=BlueT.parseInt();
+
+      digitalWrite(IN1,HIGH);
+      digitalWrite(IN2,LOW);
+      digitalWrite(IN3,HIGH);
+      digitalWrite(IN4,LOW);
+      analogWrite(ENB,PWM1);
+      analogWrite(ENA,PWM1);
+    }
+
+    if(Data=='C'){  //permet au robot de tourner sur lui-même vers la gauche
+      PWM2=BlueT.parseInt();
+
+      digitalWrite(IN1,LOW);
+      digitalWrite(IN2,HIGH);
+      digitalWrite(IN3,LOW);
+      digitalWrite(IN4,HIGH);
+      analogWrite(ENB,PWM2);
+      analogWrite(ENA,PWM2);
+    }
+    if(Data=='F'){ // Red Button Pressed
+      c = 'F';
+     
+    }
+    if(Data=='G'){ // Yellow Button Pressed
+      c = 'G';
+   }
+  }
+  if(i>5){
+    i=0;
+  }
+  if(c=='G'){ //lance la séquence de couleur "Fille" si le bouton rouge est pressé
+    strip.setPixelColor(1,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(2,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(3,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(4,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(5,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(6,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(7,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(8,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(9,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(10,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(11,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(12,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(13,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(14,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(15,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.setPixelColor(16,RGBG[i][0],RGBG[i][1], RGBG[i][2]);
+    strip.show();
+  } else if(c=='F'){ //lance la séquence de couleur "Garçon" si le bouton bleu est pressé
+    strip.setPixelColor(1,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(2,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(3,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(4,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(5,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(6,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(7,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(8,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(9,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(10,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(11,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(12,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(13,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(14,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(15,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.setPixelColor(16,RGBF[i][0],RGBF[i][1], RGBF[i][2]);
+    strip.show();
+  } else { //lance une séquence de couleur aléatoire tant qu'aucun des 2 boutons n'a été pressé
+    strip.setPixelColor(1,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(2,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(3,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(4,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(5,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(6,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(7,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(8,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(9,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(10,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(11,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(12,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(13,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(14,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(15,random(0, 223), random(0, 223), random(0, 223));
+    strip.setPixelColor(16,random(0, 223), random(0, 223), random(0, 223));
+    strip.show();
+  }
+  delay(500);
+  i++;
+    
+  
+}
