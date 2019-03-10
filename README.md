@@ -1,5 +1,5 @@
 # BB8 
-![logo Polytech](http://www.geipi-polytech.org/sites/default/files/styles/logos_page/public/logos/polytech_nice_sophia_logo_carre.jpg?itok=dDte6GWu "logo Polytech"=100x100) 
+![logo Polytech](http://www.geipi-polytech.org/sites/default/files/styles/logos_page/public/logos/polytech_nice_sophia_logo_carre.jpg?itok=dDte6GWu "logo Polytech" =100x100) 
 
 Ce projet a été réalisé dans le cadre de la formation de prépa intégré de Polytech'Nice Sophia.  
 
