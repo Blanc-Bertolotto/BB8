@@ -8,7 +8,7 @@ Le BB8 est un robot qui se déplace en roulant. L'utilisateur contrôle les dép
 
 ![BB8](https://github.com/Blanc-Bertolotto/BB8/blob/master/bb8.PNG?raw=true "BB-8")  
 
-
+Demonstration de BB-8
 <https://www.youtube.com/watch?v=d5LA5RPAscU&feature=share 
 
 
