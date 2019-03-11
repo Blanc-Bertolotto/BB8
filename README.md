@@ -9,7 +9,7 @@ Le BB8 est un robot qui se déplace en roulant. L'utilisateur contrôle les dép
 ![BB8](https://github.com/Blanc-Bertolotto/BB8/blob/master/bb8.PNG?raw=true "BB8")  
 
 Démonstration de BB8
-<https://www.youtube.com/watch?v=d5LA5RPAscU&feature=share 
+https://www.youtube.com/watch?v=d5LA5RPAscU&feature=share 
 
 
 ![logo Polytech](http://www.geipi-polytech.org/sites/default/files/styles/logos_page/public/logos/polytech_nice_sophia_logo_carre.jpg?itok=dDte6GWu ) 
