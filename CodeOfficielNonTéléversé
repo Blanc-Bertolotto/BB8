@@ -28,8 +28,6 @@ char c; //permet de stocker la couleur demandé par l'utilisateur
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(X, 4, NEO_GRB + NEO_KHZ800);
 char Data;
 int PWM=0;
-int PWM1=0;
-int PWM2=0;
 int vit=0;
 int ENA=9; //Connecté à Arduino pin 9(sortie PWM)
 int IN1=8; //Connecté à Arduino pin 4
@@ -83,25 +81,25 @@ void loop() {
       analogWrite(ENB,vit);
     }
     if(Data=='B'){  //permet au robot de tourner sur lui-même vers la droite
-      PWM1=BlueT.parseInt();
+      PWM=BlueT.parseInt();
 
       digitalWrite(IN1,HIGH);
       digitalWrite(IN2,LOW);
       digitalWrite(IN3,HIGH);
       digitalWrite(IN4,LOW);
-      analogWrite(ENB,PWM1);
-      analogWrite(ENA,PWM1);
+      analogWrite(ENB,PWM);
+      analogWrite(ENA,PWM);
     }
 
     if(Data=='C'){  //permet au robot de tourner sur lui-même vers la gauche
-      PWM2=BlueT.parseInt();
+      PWM=BlueT.parseInt();
 
       digitalWrite(IN1,LOW);
       digitalWrite(IN2,HIGH);
       digitalWrite(IN3,LOW);
       digitalWrite(IN4,HIGH);
-      analogWrite(ENB,PWM2);
-      analogWrite(ENA,PWM2);
+      analogWrite(ENB,PWM);
+      analogWrite(ENA,PWM);
     }
     if(Data=='F'){ // Red Button Pressed
       c = 'F';
